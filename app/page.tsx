@@ -10,13 +10,20 @@ import { Skeleton } from "@/components/ui/skeleton"
 import NoteCard from '@/components/note-card'
 import { getNotes } from '@/lib/notesService'
 
+interface Note {
+  $id: string;
+  title: string;
+  content: string;
+  tags: string[];
+}
+
 export default function HomePage() {
   const { user, isLoading: isAuthLoading } = useAuth()
-  const [recentNotes, setRecentNotes] = useState([])
+  const [recentNotes, setRecentNotes] = useState<Note[]>([]) // Define type for notes
   const [isNotesLoading, setIsNotesLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [error, setError] = useState<string>('') // Define type for error as string
   const [isInitialLoading, setIsInitialLoading] = useState(true)
-  const [tags, setTags] = useState<string[]>([])
+  const [tags, setTags] = useState<string[]>([]) // Define tags as array of strings
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -32,8 +39,8 @@ export default function HomePage() {
       setIsNotesLoading(true)
       setError('')
       try {
-        const notes = await getNotes()
-        setRecentNotes(notes.slice(0, 3) as any)
+        const notes = await getNotes() as Note[] // Ensure the return type is `Note[]`
+        setRecentNotes(notes.slice(0, 3))
         const allTags = notes.flatMap(note => note.tags)
         const uniqueTags = [...new Set(allTags)]
         setTags(uniqueTags)

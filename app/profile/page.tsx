@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,32 +11,44 @@ import { Skeleton } from "@/components/ui/skeleton"
 import NoteCard from '@/components/note-card'
 import { getNotes } from '@/lib/notesService'
 
+// Define Note type if not already defined in the notes service
+interface Note {
+  $id: string;
+  userId: string;
+  title: string;
+  content: string;
+  tags: string[];
+}
+
 export default function ProfilePage() {
   const { user, updateProfile } = useAuth()
-  const [name, setName] = useState('')
-  const [userNotes, setUserNotes] = useState([])
+  const [name, setName] = useState(user?.name || '') // Initialize with user's name
+  const [userNotes, setUserNotes] = useState<Note[]>([]) // Type userNotes as an array of Note
   const [isLoading, setIsLoading] = useState(true)
   const [isUpdating, setIsUpdating] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
-  useEffect(() => {
-    fetchUserNotes();
-  }, [fetchUserNotes]); // Add fetchUserNotes to the dependency array
-
-  const fetchUserNotes = async () => {
+  // Use useCallback to memoize the function and avoid infinite loops
+  const fetchUserNotes = useCallback(async () => {
     setIsLoading(true)
     setError('')
     try {
       const notes = await getNotes()
-      setUserNotes(notes.filter(note => note.userId === user.$id))
+      setUserNotes(notes.filter((note: Note) => note.userId === user?.$id))
     } catch (error) {
       console.error('Error fetching user notes:', error)
       setError('Failed to load your notes. Please try again.')
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [user?.$id])
+
+  useEffect(() => {
+    if (user) {
+      fetchUserNotes()
+    }
+  }, [fetchUserNotes, user])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

@@ -7,8 +7,17 @@ import NoteForm from '@/components/note-form'
 import { useAuth } from '@/hooks/useAuth'
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
+// Define the Note type if not already defined
+interface Note {
+  $id: string;
+  userId: string;
+  title: string;
+  content: string;
+  tags: string[];
+}
+
 export default function EditNotePage({ params }: { params: { id: string } }) {
-  const [note, setNote] = useState(null)
+  const [note, setNote] = useState<Note | null>(null) // Set type to Note or null
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const router = useRouter()
@@ -18,7 +27,7 @@ export default function EditNotePage({ params }: { params: { id: string } }) {
     async function fetchNote() {
       try {
         const fetchedNote = await getNote(params.id)
-        setNote(fetchedNote)
+        setNote(fetchedNote) // This should now work correctly
       } catch (error) {
         console.error('Error fetching note:', error)
         setError('Failed to load the note. Please try again.')
