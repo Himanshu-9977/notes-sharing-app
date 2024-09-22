@@ -119,7 +119,7 @@ export default function ProfilePage() {
                 ))}
               </div>
             ) : (
-              <p>You haven't created any notes yet.</p>
+              <p>You haven&apos;t created any notes yet.</p>
             )}
           </CardContent>
         </Card>

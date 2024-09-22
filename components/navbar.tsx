@@ -6,6 +6,10 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { ModeToggle } from "./theme-switcher";
 
+// Remove or comment out unused imports
+// import { Search } from "lucide-react"
+// import { Input } from "./ui/input"
+
 export default function Navbar() {
   const { user, logout } = useAuth();
 
