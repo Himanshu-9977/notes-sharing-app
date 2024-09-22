@@ -46,7 +46,7 @@ export default function EditNotePage({ params }: { params: { id: string } }) {
   }
 
   if (user?.$id !== note.userId) {
-    return <div>You don't have permission to edit this note.</div>
+    return <div>You don&apos;t have permission to edit this note.</div>
   }
 
   return (
