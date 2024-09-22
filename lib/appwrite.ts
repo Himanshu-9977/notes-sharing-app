@@ -10,6 +10,7 @@ try {
   client = new Client()
     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
     .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
+    
 } catch (error) {
   console.error('Failed to initialize Appwrite client:', error);
   // You might want to set a default client or handle this error in a way that makes sense for your app

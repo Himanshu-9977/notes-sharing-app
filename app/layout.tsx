@@ -21,7 +21,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, 'bg-background text-foreground')}>
+      <head>
+        <link rel="icon" href="/favicony.ico" sizes="any" />
+      </head>
+      <body 
+      suppressHydrationWarning={true}
+      className={cn(inter.className, 'bg-background text-foreground')}
+      >
         <AuthProvider>
         <ThemeProvider
             attribute="class"

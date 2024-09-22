@@ -81,6 +81,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       await account.create(ID.unique(), email, password, name);
       await login(email, password);
+      router.push('/');
     } catch (error) {
       setError('Registration failed. Please try again.');
       console.error('Registration error:', error);
