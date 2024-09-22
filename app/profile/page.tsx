@@ -21,11 +21,8 @@ export default function ProfilePage() {
   const [success, setSuccess] = useState('')
 
   useEffect(() => {
-    if (user) {
-      setName(user.name)
-      fetchUserNotes()
-    }
-  }, [user])
+    fetchUserNotes();
+  }, [fetchUserNotes]); // Add fetchUserNotes to the dependency array
 
   const fetchUserNotes = async () => {
     setIsLoading(true)
@@ -41,7 +38,7 @@ export default function ProfilePage() {
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsUpdating(true)
     setError('')
