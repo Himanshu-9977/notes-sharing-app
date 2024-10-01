@@ -18,7 +18,7 @@ interface Note {
 }
 
 export default function HomePage() {
-  const { user, isLoading: isAuthLoading } = useAuth()
+  const { user, loading: isAuthLoading } = useAuth()
   const [recentNotes, setRecentNotes] = useState<Note[]>([]) // Define type for notes
   const [isNotesLoading, setIsNotesLoading] = useState(true)
   const [error, setError] = useState<string>('') // Define type for error as string
@@ -42,7 +42,7 @@ export default function HomePage() {
         const notes = await getNotes() as Note[] // Ensure the return type is `Note[]`
         setRecentNotes(notes.slice(0, 3))
         const allTags = notes.flatMap(note => note.tags)
-        const uniqueTags = [...new Set(allTags)]
+        const uniqueTags = Array.from(new Set(allTags))
         setTags(uniqueTags)
       } catch (err) {
         console.error('Failed to fetch notes:', err)

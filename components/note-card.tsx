@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button"
 
 interface NoteCardProps {
   note: {
-    $id: string
+    $id?: string
     title: string
     content: string
-    userId: string
-    authorName: string
+    userId?: string
+    authorName?: string
     tags: string[]
   }
   currentUserId: string | undefined
