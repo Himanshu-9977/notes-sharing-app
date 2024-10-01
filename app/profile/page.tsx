@@ -127,7 +127,7 @@ export default function ProfilePage() {
             ) : userNotes.length > 0 ? (
               <div className="space-y-4">
                 {userNotes.map((note) => (
-                  <NoteCard key={note.$id} note={note} />
+                  <NoteCard key={note.$id} note={note}  />
                 ))}
               </div>
             ) : (

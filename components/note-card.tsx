@@ -11,7 +11,7 @@ interface NoteCardProps {
     authorName?: string
     tags: string[]
   }
-  currentUserId: string | undefined
+  currentUserId?: string | undefined
 }
 
 export default function NoteCard({ note, currentUserId }: NoteCardProps) {
