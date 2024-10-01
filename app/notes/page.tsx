@@ -1,8 +1,6 @@
-'use client'
-
-import { useEffect, useState } from 'react'
+"use client"
+import { Suspense, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -12,8 +10,19 @@ import { Badge } from "@/components/ui/badge"
 import NoteCard from '@/components/note-card'
 import { getNotes, Note } from '@/lib/notesService'
 import { useAuth } from '@/hooks/useAuth'
+import NoteFilter from '@/components/note-filter'
 
 export default function NotesPage() {
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <Suspense fallback={<div>Loading...</div>}>
+        <NotesContent />
+      </Suspense>
+    </div>
+  )
+}
+
+function NotesContent() {
   const [notes, setNotes] = useState<Note[]>([])
   const [filteredNotes, setFilteredNotes] = useState<Note[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -22,14 +31,6 @@ export default function NotesPage() {
   const [sortBy, setSortBy] = useState('newest')
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
   const { user } = useAuth()
-  const searchParams = useSearchParams()
-
-  useEffect(() => {
-    const tag = searchParams.get('tag')
-    if (tag) {
-      setSelectedTag(tag)
-    }
-  }, [searchParams])
 
   useEffect(() => {
     async function fetchNotes() {
@@ -76,6 +77,10 @@ export default function NotesPage() {
 
   return (
     <div className="space-y-8">
+      <Suspense fallback={null}>
+        <NoteFilter setSelectedTag={setSelectedTag} />
+      </Suspense>
+
       <div className="flex justify-between items-center">
         <h1 className="text-4xl font-bold">All Notes</h1>
         <Button asChild>
